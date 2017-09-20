@@ -41,7 +41,10 @@
   This will pretty print result and save it to a var like fn1-1111"
   [& body]
   (let [id-form (last body)
-        id-form (if (sequential? id-form) "x" id-form)]
+        id-form (if (or (keyword? id-form)
+                        (symbol? id-form))
+                  (name id-form)
+                  (class id-form))]
     `(let [res# (-> ~@body)]
        (aprint res#)
        (def ~(symbol (str id-form "-" (System/currentTimeMillis))) res#))))
