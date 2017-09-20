@@ -22,6 +22,15 @@ lein repl
 
 Also see helpful examples in comment section of `dev/dev.clj`
 
+## Development
+
+Please install this git hook:
+
+```sh
+echo 'lein lint' > .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+```
+
 ## License
 
 Copyright © 2017 Vlad Bokov
