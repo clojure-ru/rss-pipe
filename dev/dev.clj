@@ -12,7 +12,6 @@
             [cemerick.pomegranate :as pomegranate]
             [lucid.mind :refer :all]
             [mount.core :as mount]
-            [digest]
             [clojure.core.async :as async :refer [chan >! >!! <!! <! go go-loop]]
             [rss-pipe.core :as rss-pipe]
             [rss-pipe.config :as config]))
