@@ -2,6 +2,8 @@
 
 Read your github activity feed via rss and allows to filter / reduce it
 
+[![Build Status][BS img]][Build Status]
+
 ## Install
 
 ```sh
@@ -26,3 +28,6 @@ Copyright © 2017 Vlad Bokov
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
+
+[Build Status]: https://travis-ci.org/clojure-ru/rss-feed
+[BS img]: https://travis-ci.org/clojure-ru/rss-feed.png
