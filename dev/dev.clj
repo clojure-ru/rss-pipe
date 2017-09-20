@@ -1,5 +1,6 @@
 (ns dev
   (:require [aprint.core :refer [aprint ap]]
+            [feedparser-clj.core :as feedparser]
             [clojure.repl :refer [source]]
             [clj-http.client :as client]
             [clojure.java.io :as io]
@@ -20,7 +21,7 @@
   [x]
   (pomegranate/add-dependencies :coordinates x
                                 :repositories (merge cemerick.pomegranate.aether/maven-central
-                                                     {"clojars" "http://clojars.org/repo"})))
+                                                     {"clojars" "https://clojars.org/repo"})))
 
 (defmacro adef
   "Same def, but immediately print the value"
@@ -29,13 +30,23 @@
      (def ~x ~@body)
      (aprint ~x)))
 
-(defn start [] (mount/start))
-(defn stop [] (mount/stop))
-(defn reset [] (stop) (repl/refresh :after 'dev/start))
+(defn start
+  []
+  (mount/start))
+
+(defn stop
+  []
+  (mount/stop))
+
+(defn reset
+  []
+  (stop)
+  (repl/refresh :after 'dev/start))
+
 (mount/in-clj-mode)
 
 (comment
   ;; get the feed
+  (-> config/config :github-rss feedparser/parse-feed :entries first aprint)
   ;; tests
-  (reset) (clojure.test/run-all-tests)
-  )
+  (reset) (clojure.test/run-all-tests))
