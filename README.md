@@ -7,7 +7,7 @@ Read your github activity feed via rss and allows to filter / reduce it
 ## Install
 
 ```sh
-git clone git@github.com:clojure-ru/rss-feed.git
+git clone git@github.com:clojure-ru/rss-pipe.git
 cp dev-resources/config.edn.sample dev-resources/config.edn 
 ```
 
@@ -38,5 +38,5 @@ Copyright © 2017 Vlad Bokov
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
 
-[Build Status]: https://travis-ci.org/clojure-ru/rss-feed
-[BS img]: https://travis-ci.org/clojure-ru/rss-feed.png
+[Build Status]: https://travis-ci.org/clojure-ru/rss-pipe
+[BS img]: https://travis-ci.org/clojure-ru/rss-pipe.png
