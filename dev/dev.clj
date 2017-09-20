@@ -44,7 +44,7 @@
         id-form (if (or (keyword? id-form)
                         (symbol? id-form))
                   (name id-form)
-                  (class id-form))]
+                  "x")]
     `(let [res# (-> ~@body)]
        (aprint res#)
        (def ~(symbol (str id-form "-" (System/currentTimeMillis))) res#))))
