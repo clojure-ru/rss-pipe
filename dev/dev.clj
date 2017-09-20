@@ -1,5 +1,7 @@
 (ns dev
   (:require [aprint.core :refer [aprint ap]]
+            [cache :refer [cache!]]
+            [clojure.test :as test]
             [feedparser-clj.core :as feedparser]
             [clojure.repl :refer [source]]
             [clj-http.client :as client]
@@ -10,6 +12,7 @@
             [cemerick.pomegranate :as pomegranate]
             [lucid.mind :refer :all]
             [mount.core :as mount]
+            [digest]
             [clojure.core.async :as async :refer [chan >! >!! <!! <! go go-loop]]
             [rss-pipe.core :as rss-pipe]
             [rss-pipe.config :as config]))
@@ -30,6 +33,18 @@
      (def ~x ~@body)
      (aprint ~x)))
 
+(defmacro ap->
+  "This assigns result of expr to a dynamic var
+  Use instead of
+  (-> ... fn1 aprint)
+  Use
+  (ap-> ... fn1)
+  This will pretty print result and save it to a var like fn1-1111"
+  [& body]
+  `(let [res# (-> ~@body)]
+     (aprint res#)
+     (def ~(symbol (str (last body) "-" (System/currentTimeMillis))) res#)))
+
 (defn start
   []
   (mount/start))
@@ -46,7 +61,20 @@
 (mount/in-clj-mode)
 
 (comment
+  ;; repl-based workflow encouraged:
+  ;; - run some code in repl until satisfaction. use cache! macro
+  ;; - put code into code ns
+  ;; - (repl/refresh)
+  ;; - or instead after config change etc: (reset)
+  ;; - TODO: run linters and autofix code: $ lein cljfmt fix from repl
+  ;; - run tests
+  ;; - repeat
+
+  ;; start with state initializations
+  (reset)
+
   ;; get the feed
-  (-> config/config :github-rss feedparser/parse-feed :entries first aprint)
+  (ap-> config/config :github-rss feedparser/parse-feed cache! :entries first)
+
   ;; tests
-  (reset) (clojure.test/run-all-tests))
+  (test/run-all-tests))
