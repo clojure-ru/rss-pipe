@@ -30,7 +30,7 @@
   "Same def, but immediately print the value"
   [x & body]
   `(do
-     (def ~x ~@body)
+     (def ~x (do ~@body))
      (aprint ~x)))
 
 (defmacro ap->
@@ -41,9 +41,11 @@
   (ap-> ... fn1)
   This will pretty print result and save it to a var like fn1-1111"
   [& body]
-  `(let [res# (-> ~@body)]
-     (aprint res#)
-     (def ~(symbol (str (last body) "-" (System/currentTimeMillis))) res#)))
+  (let [id-form (last body)
+        id-form (if (sequential? id-form) "x" id-form)]
+    `(let [res# (-> ~@body)]
+       (aprint res#)
+       (def ~(symbol (str id-form "-" (System/currentTimeMillis))) res#))))
 
 (defn start
   []
@@ -74,7 +76,11 @@
   (reset)
 
   ;; get the feed
-  (ap-> config/config :github-rss feedparser/parse-feed cache! :entries first)
+  (ap-> config/config :github-rss feedparser/parse-feed cache! keys)
+  ;; feed without entries
+  (adef kk (remove #{:entries} keys-1505887051677)) ;; fix the name from prev result, or  (adef kk (remove #{:entries} (var-get *1)))
+  ;; leverage cache and some state
+  (ap-> config/config :github-rss feedparser/parse-feed cache! (select-keys kk))
 
   ;; tests
   (test/run-all-tests))
