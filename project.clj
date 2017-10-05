@@ -8,7 +8,7 @@
                  [mount "0.1.11"]
                  [cprop "0.1.10"]
                  [clj-http "3.7.0"]
-                 [org.clojure/core.async "0.3.443"]]
+                 [org.clojure/core.async "0.3.443"] [ring-undertow-adapter "0.2.2"] [io.undertow/undertow-core "1.4.20.Final"] [ring "1.6.2"] [clj-rss "0.2.3"] [debugger "0.2.0"]]
   :plugins [[lein-ancient "0.6.10" :exclusions [org.clojure/clojure]]
             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]
             [lein-cljfmt "0.5.6" :exclusions [org.clojure/clojure]]
@@ -21,9 +21,11 @@
   :exclusions [org.clojure/clojure
                org.clojure/clojurescript]
   :profiles {:dev     {:main           ^:replace dev
-                       :resource-paths ["dev-resources"]
+                       :resource-paths ["dev-resources" "/Users/razum2um/Code/cljsh/src"]
                        :source-paths   ["dev"]
                        :dependencies   [[pjstadig/humane-test-output "0.8.2"]
+                                        ;; [cljsh "0.1.0-SNAPSHOT"] ;; clone https://github.com/razum2um/cljsh
+                                        [rewrite-clj "0.6.0"]
                                         [com.rpl/specter "1.0.2"]
                                         [org.clojure/tools.namespace "0.2.11"]
                                         [aprint "0.1.3"]
