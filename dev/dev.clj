@@ -1,5 +1,8 @@
 (ns dev
   (:require [aprint.core :refer [aprint ap]]
+            [debugger.core :refer :all]
+            [clojure.zip :as zip]
+            [clojure.xml :as xml]
             [cache :refer [cache!]]
             [clojure.test :as test]
             [feedparser-clj.core :as feedparser]
@@ -8,11 +11,14 @@
             [clojure.java.io :as io]
             [clojure.tools.namespace.repl :as repl]
             [clojure.walk :refer [keywordize-keys stringify-keys]]
+            [cheshire.core :as json]
             [slam.hound :refer [reconstruct swap-in-reconstructed-ns-form]]
             [cemerick.pomegranate :as pomegranate]
             [lucid.mind :refer :all]
             [mount.core :as mount]
             [clojure.core.async :as async :refer [chan >! >!! <!! <! go go-loop]]
+            [rss-pipe.feed :refer :all]
+            [rss-pipe.github.repo :refer :all]
             [rss-pipe.core :as rss-pipe]
             [rss-pipe.config :as config]))
 
@@ -63,6 +69,8 @@
   (repl/refresh :after 'dev/start))
 
 (mount/in-clj-mode)
+
+(def zaprint (comp aprint zip/node))
 
 (comment
   ;; repl-based workflow encouraged:
