@@ -86,7 +86,7 @@
        (pmap (comp new-entry vals with-readme-content))))
 
 (defn updated []
-  (timef/unparse (timef/formatters :date-time) (time/now)))
+  (.toString (.toInstant (java.util.Date.))))
 
 (defn xml-feed-head []
   {:attrs {:xml:lang "en-US", :xmlns "http://www.w3.org/2005/Atom", :xmlns:media "http://search.yahoo.com/mrss/"},
@@ -94,8 +94,28 @@
              {:attrs {:href "https://github.com/razum2um", :rel "alternate", :type "text/html"}, :content nil, :tag :link}
              {:attrs nil, :content ["Feed for razum2um"], :tag :title} {:attrs nil, :content [(updated)], :tag :updated}], :tag :feed})
 
+(defn emit-element [e]
+  (if (instance? String e)
+    (print e)
+    (do
+      (print (str "<" (name (:tag e))))
+      (when (:attrs e)
+        (doseq [attr (:attrs e)]
+          (print (str " " (name (key attr)) "='" (val attr) "'"))))
+      (if (:content e)
+        (do
+          (print ">")
+          (doseq [c (:content e)]
+            (emit-element c))
+          (print (str "</" (name (:tag e)) ">")))
+        (print "/>")))))
+
+(defn emit [x]
+  (println "<?xml version='1.0' encoding='UTF-8'?>")
+  (emit-element x))
+
 (defn xml-feed []
   (-> (xml-feed-head)
       (update :content concat (new-feed))
-      xml/emit
+      emit
       with-out-str))
