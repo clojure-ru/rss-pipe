@@ -17,7 +17,10 @@
 (defn github-repo [url]
   (try
     (cache/fetch url #(http/get % {:basic-auth (:github-http-auth config/config)}))
-    (catch Exception e (timbre/error (str "Error fetching " url " :" e)))))
+    (catch Exception e
+      ;; log is streaming to response: 404 errors
+      #_(timbre/error (str "Error fetching " url " :" e))
+      nil)))
 
 (defn entry-readme-html [link]
   (some-> link
