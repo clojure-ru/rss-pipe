@@ -39,8 +39,8 @@
   (string/escape s {\< "&lt;", \> "&gt;", \& "&amp;" \" "&quot;"}))
 
 (defn with-readme-content [entry]
-  (let [readme (some-> entry link repo/entry-readme-html escape-html)]
-    (set-content entry readme)))
+  (let [readme (some-> entry link repo/repo-link? repo/entry-readme-html escape-html)]
+    (set-content entry (str readme))))
 
 (defn new-entry [content]
   {:tag :entry :content content :attrs nil})
