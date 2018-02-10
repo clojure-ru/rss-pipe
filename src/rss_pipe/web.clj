@@ -17,7 +17,7 @@
 
 (defn create-web
   []
-  (let [port (-> config/config :wev :port (or 4000))]
+  (let [port (-> config/config :port (or 4000))]
     #_(undertow/run-undertow #'app {:port port})
     (jetty/run-jetty #'app {:port port :join? false})))
 
