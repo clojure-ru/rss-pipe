@@ -38,7 +38,8 @@
   :exclusions [org.clojure/clojure
                org.clojure/clojurescript]
   :profiles {:dev     {:main           ^:replace dev
-                       :resource-paths ["dev-resources" "/Users/razum2um/Code/cljsh/src"]
+                       :resource-paths ["dev-resources"]
+                       ;; :resource-paths ["dev-resources" "/Users/razum2um/Code/cljsh/src"]
                        :source-paths   ["dev"]
                        :dependencies   [[pjstadig/humane-test-output "0.8.2"]
                                         ;; [cljsh "0.1.0-SNAPSHOT"] ;; clone https://github.com/razum2um/cljsh
