@@ -107,8 +107,8 @@
           (print ">")
           (doseq [c (:content e)]
             (emit-element c))
-          (print (str "</" (name (:tag e)) ">")))
-        (print "/>")))))
+          (println (str "</" (name (:tag e)) ">")))
+        (println "/>")))))
 
 (defn emit [x]
   (println "<?xml version='1.0' encoding='UTF-8'?>")
