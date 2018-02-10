@@ -25,7 +25,7 @@
                  [com.taoensso/timbre "4.10.0"]
                  [org.slf4j/slf4j-simple "1.8.0-beta1"]
                  [org.slf4j/slf4j-api "1.8.0-beta1"]
-                 [com.fzakaria/slf4j-timbre "0.3.8"]]
+                 [com.fzakaria/slf4j-timbre "0.3.8"] [clj-time "0.14.2"]]
   :plugins [[lein-ancient "0.6.10" :exclusions [org.clojure/clojure]]
             [lein-cloverage "1.0.9" :exclusions [org.clojure/clojure]]
             [lein-cljfmt "0.5.6" :exclusions [org.clojure/clojure]]
