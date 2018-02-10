@@ -10,6 +10,8 @@
 
 
 (defn loc->str [loc] (with-out-str (xml/emit-element (zip/node loc))))
+(defn ok-tag? [tag]
+  (and (some? tag) (not (#{:media:thumbnail} tag))))
 
 (defn process-xml [tree]
   (loop [loc tree buf nil acc []]
@@ -55,7 +57,7 @@
           (recur (zip/next loc) {} acc)
           (recur (zip/next loc) {} (conj acc buf)))
 
-        (and (some? buf) (-> loc zip/node :tag some?))
+        (and (some? buf) (-> loc zip/node :tag ok-tag?))
         (recur (or (zip/right loc) (zip/next loc)) (assoc buf (-> loc zip/node :tag) (zip/node loc)) acc)
 
         :else
