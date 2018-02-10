@@ -8,7 +8,6 @@
             [rss-pipe.cache :as cache]
             [clojure.xml :as xml]))
 
-
 (defn loc->str [loc] (with-out-str (xml/emit-element (zip/node loc))))
 (defn ok-tag? [tag]
   (and (some? tag) (not (#{:media:thumbnail} tag))))

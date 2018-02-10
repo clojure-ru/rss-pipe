@@ -32,5 +32,4 @@
           :content
           (decode :base64)
           (String.)
-          md/md-to-html-string
-          ))
+          md/md-to-html-string))
