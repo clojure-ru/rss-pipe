@@ -16,42 +16,11 @@
 (defn process-xml [tree]
   (loop [loc tree buf nil acc []]
     (cond
-      (or (zip/end? loc) (-> acc count (> 1)))
+      (zip/end? loc)
       acc
 
       :else
       (cond
-        ;; :title
-        ;; (recur (zip/next loc) (assoc buf :title (-> loc zip/node :content first)) acc)
-
-        ;; :link
-        ;; (recur (zip/next loc) (assoc buf :link (-> loc zip/node :attrs :href)) acc)
-
-        ;; :content
-        ;; ;; (recur (zip/next (zip/remove loc)) (assoc buf :content-node (zip/node loc)) acc)
-        ;; (recur (zip/next loc) (assoc buf :content-node (zip/node loc)) acc)
-
-        ;; :entry
-        ;; (let [{:keys [link content-node title]} buf
-        ;;       content* (when (and content-node
-        ;;                                link (repo/repo-link? link)
-        ;;                                title #_(re-find #"starred" title))
-        ;;                  ;; (str "!! " link)
-        ;;                  (str (repo/entry-readme-html link))
-        ;;                  )]
-        ;;   (recur
-        ;;    (if content*
-        ;;      (zip/next (zip/edit loc #(update-in % [:content] conj {:tag :content :content [content*] :attrs {:type "html"}})))
-        ;;      ;; (zip/next (zip/edit loc #(update-in % [:content] conj {:tag :!!! :content [content*] :attrs {:x 1}})))
-        ;;      (zip/next loc)
-        ;;      )
-        ;;    ;; (zip/next (zip/replace loc (zip/node loc*)))
-        ;;    ;; (zip/next (zip/edit loc #(update-in % [:content] conj (pr-str content-node*))))
-        ;;    {} (if content*
-        ;;         (conj acc (assoc buf
-        ;;                          ;; :entry (loc->str loc)
-        ;;                          :content-node nil))
-        ;;         acc))) ; start & flush prev entry findings
         (= :entry (-> loc zip/node :tag))
         (if (empty? buf)
           (recur (zip/next loc) {} acc)
@@ -61,10 +30,7 @@
         (recur (or (zip/right loc) (zip/next loc)) (assoc buf (-> loc zip/node :tag) (zip/node loc)) acc)
 
         :else
-        (recur (zip/next loc) buf acc) ; else
-
-
-        ))))
+        (recur (zip/next loc) buf acc)))))
 
 (defn link [entry] (-> entry :link :attrs :href))
 (defn set-content [entry content] (assoc-in entry [:content :content 0] content))
