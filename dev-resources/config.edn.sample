@@ -1,2 +1,3 @@
 {:github-rss "https://github.com/...private.atom?token=..."
- :github-http-auth ["razum2um" "..."}
+ :github-http-auth ["razum2um" "..."]
+ :feed-self-link "http://..."}
