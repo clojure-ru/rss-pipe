@@ -94,6 +94,7 @@
   {:attrs {:xml:lang "en-US", :xmlns "http://www.w3.org/2005/Atom", :xmlns:media "http://search.yahoo.com/mrss/"},
    :content [{:attrs nil, :content ["tag:github.com,2008:/razum2um.private"], :tag :id}
              {:attrs {:href "https://github.com/razum2um", :rel "alternate", :type "text/html"}, :content nil, :tag :link}
+             {:attrs {:href (:feed-self-link config/config), :rel "self", :type "application/atom+xml"}, :content nil, :tag :link}
              {:attrs nil, :content ["Feed for razum2um"], :tag :title} {:attrs nil, :content [(updated)], :tag :updated}], :tag :feed})
 
 (defn emit-element [e]
