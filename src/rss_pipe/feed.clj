@@ -1,5 +1,6 @@
 (ns rss-pipe.feed
   (:require [clojure.zip :as zip]
+            [clojure.string :as string]
             [clj-time.core :as time]
             [clj-time.format :as timef]
             [rss-pipe.github.repo :as repo]
@@ -66,8 +67,11 @@
 (defn link [entry] (-> entry :link :attrs :href))
 (defn set-content [entry content] (assoc-in entry [:content :content 0] content))
 
+(defn escape-html [s]
+  (string/escape s {\< "&lt;", \> "&gt;", \& "&amp;" \" "&quot;"}))
+
 (defn with-readme-content [entry]
-  (let [readme (-> entry link repo/entry-readme-html)]
+  (let [readme (some-> entry link repo/entry-readme-html escape-html)]
     (set-content entry readme)))
 
 (defn new-entry [content]
