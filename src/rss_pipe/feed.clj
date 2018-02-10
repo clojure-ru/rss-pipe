@@ -56,7 +56,7 @@
           (recur (zip/next loc) {} (conj acc buf)))
 
         (and (some? buf) (-> loc zip/node :tag some?))
-        (recur (zip/next loc) (assoc buf (-> loc zip/node :tag) (zip/node loc)) acc)
+        (recur (or (zip/right loc) (zip/next loc)) (assoc buf (-> loc zip/node :tag) (zip/node loc)) acc)
 
         :else
         (recur (zip/next loc) buf acc) ; else
