@@ -15,7 +15,9 @@
   (re-find #"https://github.com/[^\/]+/[^\/]+$" link))
 
 (defn github-repo [url]
-  (cache/fetch url #(http/get % {:throw-exceptions false})))
+  ;; (cache/fetch url #(http/get % {:throw-exceptions false}))
+  (http/get url {:throw-exceptions false})
+  )
 
 (defn entry-readme-html [link]
   (some-> link

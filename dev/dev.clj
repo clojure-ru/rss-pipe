@@ -20,9 +20,13 @@
             [rss-pipe.feed :refer :all]
             [rss-pipe.github.repo :refer :all]
             [rss-pipe.core :as rss-pipe]
+            [taoensso.timbre :as timbre]
+            [clj-time.core :as time]
+            [clj-time.format :as timef]
             [rss-pipe.config :as config]))
 
 (alter-var-root #'aprint.dispatch/*aprint-seq-length* (constantly 1000))
+(timbre/set-level! :info)
 
 (defn clsp!
   "Adds dependency to classpath. Usage: (clsp! '[[dep \"RELEASE\"]])"
