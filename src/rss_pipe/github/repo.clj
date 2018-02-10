@@ -5,6 +5,7 @@
             [cheshire.core :as json]
             [markdown.core :as md]
             [rss-pipe.config :as config]
+            [taoensso.timbre :as timbre]
             [clojure.string :as string]))
 
 (defn link->api-url [link]
@@ -14,7 +15,9 @@
   (re-find #"https://github.com/[^\/]+/[^\/]+$" link))
 
 (defn github-repo [url]
-  (cache/fetch url #(http/get % {:basic-auth (:github-http-auth config/config)})))
+  (try
+    (cache/fetch url #(http/get % {:basic-auth (:github-http-auth config/config)}))
+    (catch Exception e (timbre/error (str "Error fetching " url " :" e)))))
 
 (defn entry-readme-html [link]
   (some-> link

@@ -5,13 +5,17 @@
             [ring.adapter.jetty :as jetty]
             [ring.logger :as logger]
             [rss-pipe.config :as config]
+            [rss-pipe.cache :as cache]
             [rss-pipe.feed :as feed]))
+
+(defn cached-feed []
+  (cache/fetch :feed (fn [_] (feed/xml-feed))))
 
 (defn handler
   [req]
   {:status 200
    :headers {"Content-Type" "application/atom+xml; charset=utf-8"}
-   :body (feed/xml-feed)})
+   :body (cached-feed)})
 
 (def app (logger/wrap-with-logger handler))
 
